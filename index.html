@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="theme-color" content="#007bff"/>
+    <title>Aplikasi PWA Kokoh</title>
+    
+    <link rel="manifest" href="manifest.json">
+    
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+
+    <style>
+        /* CSS Reset & Basic Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f0f2f5;
+        }
+
+        /* 1. Container Utama Aplikasi */
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh; /* Mengisi 100% tinggi viewport (layar) */
+            background-color: #fff;
+            max-width: 800px; /* Batas lebar untuk tampilan desktop */
+            margin: 0 auto; /* Tengah di desktop */
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        /* 2. Header Aplikasi */
+        .app-header {
+            flex-shrink: 0;
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            padding-top: calc(15px + env(safe-area-inset-top)); /* Menangani "Safe Area" di iOS */
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+
+        /* 3. Konten Utama (Bagian Kunci!) */
+        .app-content {
+            flex-grow: 1;
+            overflow-y: auto; /* KUNCI UTAMA: Scroll hanya di area ini */
+            padding: 20px;
+        }
+        
+        .app-content h2 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .app-content p {
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        /* 4. Footer Aplikasi (DIMODIFIKASI) */
+        .app-footer {
+            flex-shrink: 0;
+            background-color: #ffffff;
+            border-top: 1px solid #e0e0e0;
+            padding: 10px 15px; /* Menyesuaikan padding */
+            padding-bottom: calc(10px + env(safe-area-inset-bottom)); /* Menangani "Safe Area" di iOS */
+            z-index: 10;
+            display: flex; /* Menggunakan flexbox untuk form chat */
+            align-items: center; /* Menyelaraskan item secara vertikal */
+            gap: 10px; /* Jarak antara input dan tombol */
+        }
+
+        #chat-form {
+            display: contents; /* Membuat form tidak mempengaruhi layout flex parent */
+        }
+
+        #chat-input {
+            flex-grow: 1; /* Input mengambil sisa ruang yang ada */
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            padding: 10px 15px;
+            font-size: 16px;
+        }
+        
+        #chat-input:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        #send-button {
+            flex-shrink: 0;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 50%; /* Membuat tombol menjadi lingkaran */
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.2s;
+        }
+
+        #send-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <header class="app-header">
+            <h1>Aplikasi PWA</h1>
+        </header>
+
+        <main class="app-content">
+            <h2>Konten Bisa Digulir</h2>
+            <p>Ini adalah area konten utama. Header dan Footer akan tetap diam di posisinya sementara Anda menggulir konten di area ini. Ini memberikan pengalaman seperti menggunakan aplikasi native.</p>
+            <p><strong>Paragraf 1:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi.</p>
+            <p><strong>Paragraf 2:</strong> Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor.</p>
+            <p><strong>Paragraf 3:</strong> Cras vestibulum bibendum augue. Praesent egestas leo in pede. Praesent blandit odio eu enim. Pellentesque sed dui ut augue blandit sodales. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam nibh.</p>
+            <p><strong>Paragraf 4:</strong> Mauris ac mauris sed pede pellentesque fermentum. Maecenas adipiscing ante non diam. Sorbi et Nunc. Donec quis diam.</p>
+            <p><strong>Paragraf 5:</strong> Ut a nisl id ante tempus hendrerit. Proin ey porta est. Ut volutpat, nisl sit amet convallis sollicitudin, magna nunc varius velit, eget commodo dui massa vitae nulla. Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci.</p>
+            <p><strong>Paragraf 6:</strong> Aenean dignissim pellentesque felis. Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.</p>
+            <p><strong>-- Akhir Konten --</strong></p>
+        </main>
+
+        <footer class="app-footer">
+            <form id="chat-form" onsubmit="sendMessage(event)">
+                <input type="text" id="chat-input" placeholder="Ketik pesan..." autocomplete="off">
+                <button type="submit" id="send-button" aria-label="Kirim Pesan">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                </button>
+            </form>
+        </footer>
+
+    </div>
+
+    <script>
+        // Mendaftarkan Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js').then(function(registration) {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                }, function(err) {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
+
+        // Fungsi untuk handle pengiriman chat (contoh)
+        function sendMessage(event) {
+            event.preventDefault(); // Mencegah form dari refresh halaman
+            const chatInput = document.getElementById('chat-input');
+            const message = chatInput.value.trim();
+
+            if (message) {
+                console.log('Pesan terkirim:', message);
+                // Di sini Anda bisa menambahkan logika untuk menampilkan chat di UI
+                
+                // Buat elemen p baru untuk menampilkan pesan yang dikirim
+                const messageElement = document.createElement('p');
+                messageElement.style.textAlign = 'right'; // Rata kanan untuk pesan keluar
+                messageElement.style.backgroundColor = '#007bff';
+                messageElement.style.color = 'white';
+                messageElement.style.padding = '10px 15px';
+                messageElement.style.borderRadius = '15px';
+                messageElement.style.maxWidth = '70%';
+                messageElement.style.marginLeft = 'auto'; // Dorong ke kanan
+                messageElement.textContent = message;
+                
+                // Tambahkan pesan ke konten utama
+                const mainContent = document.querySelector('.app-content');
+                mainContent.appendChild(messageElement);
+                
+                // Scroll ke pesan terbaru
+                mainContent.scrollTop = mainContent.scrollHeight;
+
+                chatInput.value = ''; // Kosongkan input setelah dikirim
+                chatInput.focus();
+            }
+        }
+    </script>
+
+</body>
+</html>
