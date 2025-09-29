@@ -4,38 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#007bff"/>
-    <title>Aplikasi PWA Terkunci</title>
+    <title>Aplikasi PWA Fullscreen</title>
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icons/icon-192x192.png">
 
     <style>
-        /* ====================================================== */
-        /* === KUNCI UTAMA: STRATEGI "TUTUP SEMUA CELAH" === */
-        /* ====================================================== */
+        /* Kunci utama: Mengunci body agar tidak bergerak */
         html, body {
-            /* 1. Mengisi seluruh layar */
             width: 100%;
             height: 100%;
-
-            /* 2. Mengunci posisi body ke layar, ini akan mematikan "ayunan" */
             position: fixed; 
-
-            /* 3. Mencegah scrollbar dan efek "pantulan" secara eksplisit */
             overflow: hidden; 
             overscroll-behavior: none; 
-
-            /* Styling dasar */
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: #f0f2f5;
         }
 
-        /* Container aplikasi mengambil alih sebagai 'body' visual */
+        /* ====================================================== */
+        /* === PERBAIKAN UTAMA ADA DI SINI === */
+        /* ====================================================== */
         .app-container {
             display: flex;
             flex-direction: column;
-            width: 100%;
-            height: 100%; /* Mengisi penuh body yang sudah dikunci */
+            width: 100%;  /* Mengisi 100% lebar body */
+            height: 100%; /* Mengisi 100% tinggi body */
             background-color: #fff;
+            /* max-width dan margin telah DIHAPUS untuk menutup semua celah */
         }
 
         /* Header Aplikasi */
@@ -44,7 +38,6 @@
             background-color: #007bff;
             color: white;
             padding: 15px;
-            /* Memberi ruang untuk notch/Dynamic Island di iPhone */
             padding-top: calc(15px + env(safe-area-inset-top));
             text-align: center;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -54,9 +47,7 @@
         /* Konten Utama (Area Chat) */
         .app-content {
             flex-grow: 1;
-            /* SATU-SATUNYA TEMPAT SCROLL DIIZINKAN */
             overflow-y: auto; 
-            /* Memberi efek scroll yang lebih mulus di iOS */
             -webkit-overflow-scrolling: touch; 
             padding: 20px;
         }
@@ -67,7 +58,6 @@
             background-color: #ffffff;
             border-top: 1px solid #e0e0e0;
             padding: 10px 15px;
-            /* Memberi ruang untuk Home Indicator di iPhone */
             padding-bottom: calc(10px + env(safe-area-inset-bottom));
             z-index: 10;
             display: flex;
@@ -94,7 +84,7 @@
 
         <main class="app-content">
             <h2>Konten Bisa Digulir</h2>
-            <p>Dengan strategi `position: fixed`, "celah kosong" dan efek "ayunan" di Safari seharusnya sudah hilang sepenuhnya. Aplikasi kini terkunci di layar.</p>
+            <p>Layout ini sekarang akan selalu memenuhi seluruh layar, menghilangkan celah di sisi kanan dan kiri pada layar lebar.</p>
             <p><strong>Paragraf 1:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi.</p>
             <p><strong>Paragraf 2:</strong> Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor.</p>
             <p><strong>Paragraf 3:</strong> Cras vestibulum bibendum augue. Praesent egestas leo in pede. Praesent blandit odio eu enim. Pellentesque sed dui ut augue blandit sodales. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam nibh.</p>
