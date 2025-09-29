@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#007bff"/>
-    <title>Aplikasi PWA Kokoh</title>
+    <meta name="theme-color" content="#333"/>
+    <title>Layout Sticky Header/Footer</title>
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icons/icon-192x192.png">
 
@@ -16,55 +16,71 @@
             box-sizing: border-box;
         }
 
-        /* --- BLOK CSS YANG DISEMPURNAKAN --- */
-        html, body {
-            height: 100%;
-            width: 100%;
+        /* KEMBALIKAN SCROLL KE BODY */
+        body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: #f0f2f5;
-
-            /* Mengunci Body agar tidak bisa di-scroll atau 'memantul' */
-            overflow: hidden;               /* 1. Mencegah munculnya scrollbar di body */
-            overscroll-behavior-y: contain; /* 2. Mencegah efek 'pantulan' vertikal pada body */
         }
 
-        /* 1. Container Utama Aplikasi */
+        /* CONTAINER TIDAK LAGI DIKUNCI TINGGINYA */
         .app-container {
-            display: flex;
-            flex-direction: column;
-            height: 100dvh; /* Menggunakan Dynamic Viewport Height */
-            background-color: #fff;
+            width: 100%;
             max-width: 800px;
             margin: 0 auto;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            background-color: #fff;
         }
 
-        /* 2. Header Aplikasi */
+        /* --- KUNCI UTAMA EFEK STICKY --- */
+
         .app-header {
-            flex-shrink: 0;
-            background-color: #007bff;
-            color: white;
+            /* 1. Aktifkan mode sticky */
+            position: sticky;
+            /* 2. Menempel di bagian paling atas saat di-scroll */
+            top: 0;
+
+            /* Styling */
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #333;
             padding: 15px;
             padding-top: calc(15px + env(safe-area-inset-top));
             text-align: center;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             z-index: 10;
+            /* Menambahkan efek blur di belakang header (opsional, tapi keren) */
+            backdrop-filter: blur(8px);
         }
 
-        /* 3. Konten Utama (Area Chat) */
+        .app-footer {
+            /* 1. Aktifkan mode sticky */
+            position: sticky;
+            /* 2. Menempel di bagian paling bawah saat di-scroll */
+            bottom: 0;
+
+            /* Styling */
+            background-color: rgba(255, 255, 255, 0.9);
+            border-top: 1px solid #e0e0e0;
+            padding: 10px 15px;
+            padding-bottom: calc(10px + env(safe-area-inset-bottom));
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            backdrop-filter: blur(8px);
+        }
+
         .app-content {
-            flex-grow: 1;
-            overflow-y: auto; /* SATU-SATUNYA area yang boleh scroll */
-            overscroll-behavior-y: contain; /* Mencegah 'pantulan' dari area ini juga */
+            /* Area konten tidak perlu properti scroll khusus lagi */
             padding: 20px;
+            /* Beri ruang ekstra di awal dan akhir agar tidak tertutup header/footer saat scroll penuh */
+            padding-top: 30px;
+            padding-bottom: 30px;
         }
 
         /* Sisanya tetap sama... */
         .app-content h2 { margin-bottom: 15px; color: #333; }
         .app-content p { line-height: 1.6; margin-bottom: 20px; color: #555; }
-        .app-footer { flex-shrink: 0; background-color: #ffffff; border-top: 1px solid #e0e0e0; padding: 10px 15px; padding-bottom: calc(10px + env(safe-area-inset-bottom)); z-index: 10; display: flex; align-items: center; gap: 10px; }
         #chat-form { display: contents; }
-        #chat-input { flex-grow: 1; border: 1px solid #ccc; border-radius: 20px; padding: 10px 15px; font-size: 16px; }
+        #chat-input { flex-grow: 1; border: 1px solid #ccc; background-color: #f8f9fa; border-radius: 20px; padding: 10px 15px; font-size: 16px; }
         #chat-input:focus { outline: none; border-color: #007bff; }
         #send-button { flex-shrink: 0; border: none; background-color: #007bff; color: white; border-radius: 50%; width: 40px; height: 40px; font-size: 20px; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: background-color 0.2s; }
         #send-button:hover { background-color: #0056b3; }
@@ -75,23 +91,26 @@
     <div class="app-container">
 
         <header class="app-header">
-            <h1>Aplikasi PWA</h1>
+            <h1>Header Sticky</h1>
         </header>
 
         <main class="app-content">
             <h2>Konten Bisa Digulir</h2>
-            <p>Sekarang, scroll atau 'pantulan' di luar area ini sudah sepenuhnya dihilangkan. Pengalaman pengguna kini terkunci hanya di dalam aplikasi.</p>
+            <p>Perhatikan bagaimana header dan footer sekarang ikut bergerak saat Anda scroll pertama kali.</p>
+            <p>Header akan 'menempel' di atas, dan footer akan 'menempel' di bawah saat posisi scrollnya tercapai.</p>
             <p><strong>Paragraf 1:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi.</p>
             <p><strong>Paragraf 2:</strong> Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor.</p>
             <p><strong>Paragraf 3:</strong> Cras vestibulum bibendum augue. Praesent egestas leo in pede. Praesent blandit odio eu enim. Pellentesque sed dui ut augue blandit sodales. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam nibh.</p>
             <p><strong>Paragraf 4:</strong> Mauris ac mauris sed pede pellentesque fermentum. Maecenas adipiscing ante non diam. Sorbi et Nunc. Donec quis diam.</p>
             <p><strong>Paragraf 5:</strong> Ut a nisl id ante tempus hendrerit. Proin ey porta est. Ut volutpat, nisl sit amet convallis sollicitudin, magna nunc varius velit, eget commodo dui massa vitae nulla. Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci.</p>
             <p><strong>Paragraf 6:</strong> Aenean dignissim pellentesque felis. Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.</p>
+            <p><strong>Paragraf 7:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi.</p>
+            <p><strong>Paragraf 8:</strong> Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor.</p>
             <p><strong>-- Akhir Konten --</strong></p>
         </main>
 
         <footer class="app-footer">
-            <form id="chat-form" onsubmit="sendMessage(event)">
+            <form id="chat-form" onsubmit="event.preventDefault();">
                 <input type="text" id="chat-input" placeholder="Ketik pesan..." autocomplete="off">
                 <button type="submit" id="send-button" aria-label="Kirim Pesan">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
@@ -102,23 +121,7 @@
     </div>
 
     <script>
-        // ... (Kode JavaScript tetap sama)
         if ('serviceWorker' in navigator) { window.addEventListener('load', function() { navigator.serviceWorker.register('/sw.js'); }); }
-        function sendMessage(event) {
-            event.preventDefault();
-            const chatInput = document.getElementById('chat-input');
-            const message = chatInput.value.trim();
-            if (message) {
-                const messageElement = document.createElement('p');
-                messageElement.style.cssText = "text-align: right; background-color: #007bff; color: white; padding: 10px 15px; border-radius: 15px; max-width: 70%; margin-left: auto;";
-                messageElement.textContent = message;
-                const mainContent = document.querySelector('.app-content');
-                mainContent.appendChild(messageElement);
-                mainContent.scrollTop = mainContent.scrollHeight;
-                chatInput.value = '';
-                chatInput.focus();
-            }
-        }
     </script>
 
 </body>
