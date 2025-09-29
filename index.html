@@ -3,12 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <meta name="theme-color" content="#007bff"/>
     <title>Aplikasi PWA Kokoh</title>
-    
     <link rel="manifest" href="manifest.json">
-    
     <link rel="apple-touch-icon" href="icons/icon-192x192.png">
 
     <style>
@@ -23,16 +20,17 @@
             height: 100%;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: #f0f2f5;
+            overflow: hidden; /* <-- PERUBAHAN ADA DI SINI */
         }
 
         /* 1. Container Utama Aplikasi */
         .app-container {
             display: flex;
             flex-direction: column;
-            height: 100vh; /* Mengisi 100% tinggi viewport (layar) */
+            height: 100vh;
             background-color: #fff;
-            max-width: 800px; /* Batas lebar untuk tampilan desktop */
-            margin: 0 auto; /* Tengah di desktop */
+            max-width: 800px;
+            margin: 0 auto;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
 
@@ -42,19 +40,19 @@
             background-color: #007bff;
             color: white;
             padding: 15px;
-            padding-top: calc(15px + env(safe-area-inset-top)); /* Menangani "Safe Area" di iOS */
+            padding-top: calc(15px + env(safe-area-inset-top));
             text-align: center;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             z-index: 10;
         }
 
-        /* 3. Konten Utama (Bagian Kunci!) */
+        /* 3. Konten Utama (Area Chat) */
         .app-content {
             flex-grow: 1;
-            overflow-y: auto; /* KUNCI UTAMA: Scroll hanya di area ini */
+            overflow-y: auto; /* Scrollbar HANYA akan muncul di sini */
             padding: 20px;
         }
-        
+
         .app-content h2 {
             margin-bottom: 15px;
             color: #333;
@@ -66,31 +64,31 @@
             color: #555;
         }
 
-        /* 4. Footer Aplikasi (DIMODIFIKASI) */
+        /* 4. Footer Aplikasi */
         .app-footer {
             flex-shrink: 0;
             background-color: #ffffff;
             border-top: 1px solid #e0e0e0;
-            padding: 10px 15px; /* Menyesuaikan padding */
-            padding-bottom: calc(10px + env(safe-area-inset-bottom)); /* Menangani "Safe Area" di iOS */
+            padding: 10px 15px;
+            padding-bottom: calc(10px + env(safe-area-inset-bottom));
             z-index: 10;
-            display: flex; /* Menggunakan flexbox untuk form chat */
-            align-items: center; /* Menyelaraskan item secara vertikal */
-            gap: 10px; /* Jarak antara input dan tombol */
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         #chat-form {
-            display: contents; /* Membuat form tidak mempengaruhi layout flex parent */
+            display: contents;
         }
 
         #chat-input {
-            flex-grow: 1; /* Input mengambil sisa ruang yang ada */
+            flex-grow: 1;
             border: 1px solid #ccc;
             border-radius: 20px;
             padding: 10px 15px;
             font-size: 16px;
         }
-        
+
         #chat-input:focus {
             outline: none;
             border-color: #007bff;
@@ -101,7 +99,7 @@
             border: none;
             background-color: #007bff;
             color: white;
-            border-radius: 50%; /* Membuat tombol menjadi lingkaran */
+            border-radius: 50%;
             width: 40px;
             height: 40px;
             font-size: 20px;
@@ -120,14 +118,14 @@
 <body>
 
     <div class="app-container">
-        
+
         <header class="app-header">
             <h1>Aplikasi PWA</h1>
         </header>
 
         <main class="app-content">
             <h2>Konten Bisa Digulir</h2>
-            <p>Ini adalah area konten utama. Header dan Footer akan tetap diam di posisinya sementara Anda menggulir konten di area ini. Ini memberikan pengalaman seperti menggunakan aplikasi native.</p>
+            <p>Ini adalah area konten utama. Header dan Footer akan tetap diam di posisinya sementara Anda menggulir konten di area ini. Scrollbar di luar area ini sudah dihilangkan.</p>
             <p><strong>Paragraf 1:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi.</p>
             <p><strong>Paragraf 2:</strong> Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor.</p>
             <p><strong>Paragraf 3:</strong> Cras vestibulum bibendum augue. Praesent egestas leo in pede. Praesent blandit odio eu enim. Pellentesque sed dui ut augue blandit sodales. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam nibh.</p>
@@ -162,33 +160,29 @@
 
         // Fungsi untuk handle pengiriman chat (contoh)
         function sendMessage(event) {
-            event.preventDefault(); // Mencegah form dari refresh halaman
+            event.preventDefault();
             const chatInput = document.getElementById('chat-input');
             const message = chatInput.value.trim();
 
             if (message) {
                 console.log('Pesan terkirim:', message);
-                // Di sini Anda bisa menambahkan logika untuk menampilkan chat di UI
-                
-                // Buat elemen p baru untuk menampilkan pesan yang dikirim
+
                 const messageElement = document.createElement('p');
-                messageElement.style.textAlign = 'right'; // Rata kanan untuk pesan keluar
+                messageElement.style.textAlign = 'right';
                 messageElement.style.backgroundColor = '#007bff';
                 messageElement.style.color = 'white';
                 messageElement.style.padding = '10px 15px';
                 messageElement.style.borderRadius = '15px';
                 messageElement.style.maxWidth = '70%';
-                messageElement.style.marginLeft = 'auto'; // Dorong ke kanan
+                messageElement.style.marginLeft = 'auto';
                 messageElement.textContent = message;
-                
-                // Tambahkan pesan ke konten utama
+
                 const mainContent = document.querySelector('.app-content');
                 mainContent.appendChild(messageElement);
-                
-                // Scroll ke pesan terbaru
+
                 mainContent.scrollTop = mainContent.scrollHeight;
 
-                chatInput.value = ''; // Kosongkan input setelah dikirim
+                chatInput.value = '';
                 chatInput.focus();
             }
         }
