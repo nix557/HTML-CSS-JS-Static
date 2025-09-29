@@ -3,103 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Aplikasi PWA Fullscreen Final</title>
+    <meta name="theme-color" content="#007bff"/>
+    <title>Aplikasi PWA Final</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
     <style>
-        /* Mengunci body agar tidak bergerak atau memiliki celah sama sekali */
         html, body {
-            width: 100%;
-            height: 100%;
-            position: fixed; 
-            overflow: hidden; 
-            overscroll-behavior: none; 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            width: 100%; height: 100%; position: fixed; 
+            overflow: hidden; overscroll-behavior: none; 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica", "Arial", sans-serif;
         }
-
-        /*
-        ==================================================================
-        === INI BAGIAN TERPENTING UNTUK MEMPERBAIKI MASALAH DI GAMBAR ANDA ===
-        ==================================================================
-        Container aplikasi ini sekarang TIDAK MEMILIKI `max-width` atau `margin`.
-        Ini akan memaksanya untuk selalu mengisi 100% lebar layar,
-        baik di ponsel, tablet, maupun desktop.
-        */
         .app-container {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            height: 100%;
+            display: flex; flex-direction: column;
+            width: 100%; height: 100%;
             background-color: #fff;
         }
-
-        /* Header Aplikasi */
         .app-header {
             flex-shrink: 0;
-            background-color: #007bff;
+            background-color: #007bff; /* Warna kembali ke biru */
             color: white;
-            padding: 15px;
-            padding-top: calc(15px + env(safe-area-inset-top));
-            text-align: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 15px; padding-top: calc(15px + env(safe-area-inset-top));
+            text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             z-index: 10;
         }
-
-        /* Konten Utama (Area Chat) */
         .app-content {
-            flex-grow: 1;
-            overflow-y: auto; 
-            -webkit-overflow-scrolling: touch; 
-            padding: 20px;
+            flex-grow: 1; overflow-y: auto; 
+            -webkit-overflow-scrolling: touch; padding: 20px;
         }
-
-        /* Footer Aplikasi */
         .app-footer {
-            flex-shrink: 0;
-            background-color: #ffffff;
-            border-top: 1px solid #e0e0e0;
-            padding: 10px 15px;
+            flex-shrink: 0; background-color: #ffffff;
+            border-top: 1px solid #e0e0e0; padding: 10px 15px;
             padding-bottom: calc(10px + env(safe-area-inset-bottom));
-            z-index: 10;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            z-index: 10; display: flex; align-items: center; gap: 10px;
         }
-
-        /* Styling lain */
         .app-content h2 { margin-bottom: 15px; color: #333; }
-        .app-content p { line-height: 1.6; margin-bottom: 20px; color: #555; }
         #chat-form { display: contents; }
         #chat-input { flex-grow: 1; border: 1px solid #ccc; border-radius: 20px; padding: 10px 15px; font-size: 16px; }
-        #chat-input:focus { outline: none; border-color: #007bff; }
-        #send-button { flex-shrink: 0; border: none; background-color: #007bff; color: white; border-radius: 50%; width: 40px; height: 40px; font-size: 20px; cursor: pointer; display: flex; justify-content: center; align-items: center; }
+        #send-button { flex-shrink: 0; border: none; background-color: #007bff; color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; }
     </style>
 </head>
 <body>
 
     <div class="app-container">
-
-        <header class="app-header">
-            <h1>Aplikasi PWA</h1>
-        </header>
-
+        <header class="app-header"><h1>Aplikasi PWA</h1></header>
         <main class="app-content">
             <h2>Konten Bisa Digulir</h2>
-            <p>Ini adalah area konten utama. Header dan Footer akan tetap diam di posisinya sementara Anda menggulir konten di area ini. Ini memberikan pengalaman seperti menggunakan aplikasi native.</p>
-            <p><strong>Paragraf 1:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi.</p>
-            <p><strong>Paragraf 2:</strong> Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor.</p>
-            <p><strong>Paragraf 3:</strong> Cras vestibulum bibendum augue. Praesent egestas leo in pede. Praesent blandit odio eu enim. Pellentesque sed dui ut augue blandit sodales. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam nibh.</p>
-            <p><strong>-- Akhir Konten --</strong></p>
+            <p>Versi ini sudah memperbaiki layout fullscreen dan menyertakan skrip untuk fungsionalitas PWA (offline).</p>
         </main>
-
         <footer class="app-footer">
-            <form id="chat-form" onsubmit="event.preventDefault();">
-                <input type="text" id="chat-input" placeholder="Ketik pesan..." autocomplete="off">
-                <button type="submit" id="send-button" aria-label="Kirim Pesan">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                </button>
-            </form>
+            <form id="chat-form" onsubmit="event.preventDefault();"><input type="text" id="chat-input" placeholder="Ketik pesan..." autocomplete="off"><button type="submit" id="send-button" aria-label="Kirim Pesan"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg></button></form>
         </footer>
-
     </div>
+
+    <script>
+        // Mendaftarkan Service Worker agar PWA bisa "tersimpan" dan offline
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js').then(function(registration) {
+                    console.log('Service Worker berhasil didaftarkan: ', registration.scope);
+                }, function(err) {
+                    console.log('Pendaftaran Service Worker gagal: ', err);
+                });
+            });
+        }
+    </script>
 
 </body>
 </html>
