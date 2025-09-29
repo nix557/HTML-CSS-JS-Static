@@ -20,14 +20,14 @@
             height: 100%;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: #f0f2f5;
-            overflow: hidden; /* <-- PERUBAHAN ADA DI SINI */
+            overflow: hidden; 
         }
 
         /* 1. Container Utama Aplikasi */
         .app-container {
             display: flex;
             flex-direction: column;
-            height: 100vh;
+            height: 100dvh; /* <-- PERBAIKAN #1: Gunakan Dynamic Viewport Height */
             background-color: #fff;
             max-width: 800px;
             margin: 0 auto;
@@ -49,7 +49,8 @@
         /* 3. Konten Utama (Area Chat) */
         .app-content {
             flex-grow: 1;
-            overflow-y: auto; /* Scrollbar HANYA akan muncul di sini */
+            overflow-y: auto;
+            overscroll-behavior-y: contain; /* <-- PERBAIKAN #2: Mencegah scroll 'bocor' ke body */
             padding: 20px;
         }
 
@@ -139,7 +140,7 @@
             <form id="chat-form" onsubmit="sendMessage(event)">
                 <input type="text" id="chat-input" placeholder="Ketik pesan..." autocomplete="off">
                 <button type="submit" id="send-button" aria-label="Kirim Pesan">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                    <svg xmlns="http://www.w2.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
                 </button>
             </form>
         </footer>
