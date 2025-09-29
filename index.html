@@ -2,62 +2,66 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#333"/>
-    <title>Layout Sticky Header/Footer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#007bff"/>
+    <title>Aplikasi PWA Terkunci</title>
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icons/icon-192x192.png">
 
     <style>
-        /* CSS Reset & Basic Styling */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        /* --- STRATEGI FINAL UNTUK MENGUNCI BODY --- */
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* Mencegah scrollbar */
 
-        /* KEMBALIKAN SCROLL KE BODY */
-        body {
+            /* KUNCI UTAMA: Mengunci posisi body ke viewport */
+            position: fixed; 
+
+            /* Mencegah efek 'pantulan' atau 'ayunan' di semua browser */
+            overscroll-behavior: none; 
+
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: #f0f2f5;
         }
 
-        /* CONTAINER TIDAK LAGI DIKUNCI TINGGINYA */
+        /* Container aplikasi mengambil alih sebagai 'body' visual */
         .app-container {
+            display: flex;
+            flex-direction: column;
             width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
+            height: 100%; /* Mengisi penuh body yang sudah fixed */
             background-color: #fff;
+            /* Kita tidak perlu max-width di sini karena body sudah dikunci */
         }
 
-        /* --- KUNCI UTAMA EFEK STICKY --- */
-
+        /* Header Aplikasi */
         .app-header {
-            /* 1. Aktifkan mode sticky */
-            position: sticky;
-            /* 2. Menempel di bagian paling atas saat di-scroll */
-            top: 0;
-
-            /* Styling */
-            background-color: rgba(255, 255, 255, 0.9);
-            color: #333;
+            flex-shrink: 0;
+            background-color: #007bff;
+            color: white;
             padding: 15px;
+            /* viewport-fit=cover di meta butuh ini untuk safe-area */
             padding-top: calc(15px + env(safe-area-inset-top));
             text-align: center;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             z-index: 10;
-            /* Menambahkan efek blur di belakang header (opsional, tapi keren) */
-            backdrop-filter: blur(8px);
         }
 
-        .app-footer {
-            /* 1. Aktifkan mode sticky */
-            position: sticky;
-            /* 2. Menempel di bagian paling bawah saat di-scroll */
-            bottom: 0;
+        /* Konten Utama (Area Chat) */
+        .app-content {
+            flex-grow: 1;
+            /* SATU-SATUNYA TEMPAT SCROLL DIIZINKAN */
+            overflow-y: auto; 
+            /* Memberi efek scroll yang lebih mulus di iOS */
+            -webkit-overflow-scrolling: touch; 
+            padding: 20px;
+        }
 
-            /* Styling */
-            background-color: rgba(255, 255, 255, 0.9);
+        /* Footer Aplikasi */
+        .app-footer {
+            flex-shrink: 0;
+            background-color: #ffffff;
             border-top: 1px solid #e0e0e0;
             padding: 10px 15px;
             padding-bottom: calc(10px + env(safe-area-inset-bottom));
@@ -65,25 +69,15 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            backdrop-filter: blur(8px);
         }
 
-        .app-content {
-            /* Area konten tidak perlu properti scroll khusus lagi */
-            padding: 20px;
-            /* Beri ruang ekstra di awal dan akhir agar tidak tertutup header/footer saat scroll penuh */
-            padding-top: 30px;
-            padding-bottom: 30px;
-        }
-
-        /* Sisanya tetap sama... */
+        /* Styling lain tetap sama */
         .app-content h2 { margin-bottom: 15px; color: #333; }
         .app-content p { line-height: 1.6; margin-bottom: 20px; color: #555; }
         #chat-form { display: contents; }
-        #chat-input { flex-grow: 1; border: 1px solid #ccc; background-color: #f8f9fa; border-radius: 20px; padding: 10px 15px; font-size: 16px; }
+        #chat-input { flex-grow: 1; border: 1px solid #ccc; border-radius: 20px; padding: 10px 15px; font-size: 16px; }
         #chat-input:focus { outline: none; border-color: #007bff; }
         #send-button { flex-shrink: 0; border: none; background-color: #007bff; color: white; border-radius: 50%; width: 40px; height: 40px; font-size: 20px; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: background-color 0.2s; }
-        #send-button:hover { background-color: #0056b3; }
     </style>
 </head>
 <body>
@@ -91,21 +85,15 @@
     <div class="app-container">
 
         <header class="app-header">
-            <h1>Header Sticky</h1>
+            <h1>Aplikasi PWA</h1>
         </header>
 
         <main class="app-content">
             <h2>Konten Bisa Digulir</h2>
-            <p>Perhatikan bagaimana header dan footer sekarang ikut bergerak saat Anda scroll pertama kali.</p>
-            <p>Header akan 'menempel' di atas, dan footer akan 'menempel' di bawah saat posisi scrollnya tercapai.</p>
+            <p>Dengan strategi `position: fixed` pada body, efek 'ayunan' atau 'pantulan' di Safari seharusnya sudah hilang sepenuhnya.</p>
             <p><strong>Paragraf 1:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi.</p>
             <p><strong>Paragraf 2:</strong> Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor.</p>
             <p><strong>Paragraf 3:</strong> Cras vestibulum bibendum augue. Praesent egestas leo in pede. Praesent blandit odio eu enim. Pellentesque sed dui ut augue blandit sodales. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam nibh.</p>
-            <p><strong>Paragraf 4:</strong> Mauris ac mauris sed pede pellentesque fermentum. Maecenas adipiscing ante non diam. Sorbi et Nunc. Donec quis diam.</p>
-            <p><strong>Paragraf 5:</strong> Ut a nisl id ante tempus hendrerit. Proin ey porta est. Ut volutpat, nisl sit amet convallis sollicitudin, magna nunc varius velit, eget commodo dui massa vitae nulla. Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci.</p>
-            <p><strong>Paragraf 6:</strong> Aenean dignissim pellentesque felis. Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.</p>
-            <p><strong>Paragraf 7:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi.</p>
-            <p><strong>Paragraf 8:</strong> Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor.</p>
             <p><strong>-- Akhir Konten --</strong></p>
         </main>
 
