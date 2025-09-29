@@ -16,18 +16,23 @@
             box-sizing: border-box;
         }
 
+        /* --- BLOK CSS YANG DISEMPURNAKAN --- */
         html, body {
             height: 100%;
+            width: 100%;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: #f0f2f5;
-            overflow: hidden; 
+
+            /* Mengunci Body agar tidak bisa di-scroll atau 'memantul' */
+            overflow: hidden;               /* 1. Mencegah munculnya scrollbar di body */
+            overscroll-behavior-y: contain; /* 2. Mencegah efek 'pantulan' vertikal pada body */
         }
 
         /* 1. Container Utama Aplikasi */
         .app-container {
             display: flex;
             flex-direction: column;
-            height: 100dvh; /* <-- PERBAIKAN #1: Gunakan Dynamic Viewport Height */
+            height: 100dvh; /* Menggunakan Dynamic Viewport Height */
             background-color: #fff;
             max-width: 800px;
             margin: 0 auto;
@@ -49,71 +54,20 @@
         /* 3. Konten Utama (Area Chat) */
         .app-content {
             flex-grow: 1;
-            overflow-y: auto;
-            overscroll-behavior-y: contain; /* <-- PERBAIKAN #2: Mencegah scroll 'bocor' ke body */
+            overflow-y: auto; /* SATU-SATUNYA area yang boleh scroll */
+            overscroll-behavior-y: contain; /* Mencegah 'pantulan' dari area ini juga */
             padding: 20px;
         }
 
-        .app-content h2 {
-            margin-bottom: 15px;
-            color: #333;
-        }
-
-        .app-content p {
-            line-height: 1.6;
-            margin-bottom: 20px;
-            color: #555;
-        }
-
-        /* 4. Footer Aplikasi */
-        .app-footer {
-            flex-shrink: 0;
-            background-color: #ffffff;
-            border-top: 1px solid #e0e0e0;
-            padding: 10px 15px;
-            padding-bottom: calc(10px + env(safe-area-inset-bottom));
-            z-index: 10;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        #chat-form {
-            display: contents;
-        }
-
-        #chat-input {
-            flex-grow: 1;
-            border: 1px solid #ccc;
-            border-radius: 20px;
-            padding: 10px 15px;
-            font-size: 16px;
-        }
-
-        #chat-input:focus {
-            outline: none;
-            border-color: #007bff;
-        }
-
-        #send-button {
-            flex-shrink: 0;
-            border: none;
-            background-color: #007bff;
-            color: white;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            font-size: 20px;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: background-color 0.2s;
-        }
-
-        #send-button:hover {
-            background-color: #0056b3;
-        }
+        /* Sisanya tetap sama... */
+        .app-content h2 { margin-bottom: 15px; color: #333; }
+        .app-content p { line-height: 1.6; margin-bottom: 20px; color: #555; }
+        .app-footer { flex-shrink: 0; background-color: #ffffff; border-top: 1px solid #e0e0e0; padding: 10px 15px; padding-bottom: calc(10px + env(safe-area-inset-bottom)); z-index: 10; display: flex; align-items: center; gap: 10px; }
+        #chat-form { display: contents; }
+        #chat-input { flex-grow: 1; border: 1px solid #ccc; border-radius: 20px; padding: 10px 15px; font-size: 16px; }
+        #chat-input:focus { outline: none; border-color: #007bff; }
+        #send-button { flex-shrink: 0; border: none; background-color: #007bff; color: white; border-radius: 50%; width: 40px; height: 40px; font-size: 20px; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: background-color 0.2s; }
+        #send-button:hover { background-color: #0056b3; }
     </style>
 </head>
 <body>
@@ -126,7 +80,7 @@
 
         <main class="app-content">
             <h2>Konten Bisa Digulir</h2>
-            <p>Ini adalah area konten utama. Header dan Footer akan tetap diam di posisinya sementara Anda menggulir konten di area ini. Scrollbar di luar area ini sudah dihilangkan.</p>
+            <p>Sekarang, scroll atau 'pantulan' di luar area ini sudah sepenuhnya dihilangkan. Pengalaman pengguna kini terkunci hanya di dalam aplikasi.</p>
             <p><strong>Paragraf 1:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi.</p>
             <p><strong>Paragraf 2:</strong> Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor.</p>
             <p><strong>Paragraf 3:</strong> Cras vestibulum bibendum augue. Praesent egestas leo in pede. Praesent blandit odio eu enim. Pellentesque sed dui ut augue blandit sodales. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam nibh.</p>
@@ -140,7 +94,7 @@
             <form id="chat-form" onsubmit="sendMessage(event)">
                 <input type="text" id="chat-input" placeholder="Ketik pesan..." autocomplete="off">
                 <button type="submit" id="send-button" aria-label="Kirim Pesan">
-                    <svg xmlns="http://www.w2.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
                 </button>
             </form>
         </footer>
@@ -148,41 +102,19 @@
     </div>
 
     <script>
-        // Mendaftarkan Service Worker
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/sw.js').then(function(registration) {
-                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                }, function(err) {
-                    console.log('ServiceWorker registration failed: ', err);
-                });
-            });
-        }
-
-        // Fungsi untuk handle pengiriman chat (contoh)
+        // ... (Kode JavaScript tetap sama)
+        if ('serviceWorker' in navigator) { window.addEventListener('load', function() { navigator.serviceWorker.register('/sw.js'); }); }
         function sendMessage(event) {
             event.preventDefault();
             const chatInput = document.getElementById('chat-input');
             const message = chatInput.value.trim();
-
             if (message) {
-                console.log('Pesan terkirim:', message);
-
                 const messageElement = document.createElement('p');
-                messageElement.style.textAlign = 'right';
-                messageElement.style.backgroundColor = '#007bff';
-                messageElement.style.color = 'white';
-                messageElement.style.padding = '10px 15px';
-                messageElement.style.borderRadius = '15px';
-                messageElement.style.maxWidth = '70%';
-                messageElement.style.marginLeft = 'auto';
+                messageElement.style.cssText = "text-align: right; background-color: #007bff; color: white; padding: 10px 15px; border-radius: 15px; max-width: 70%; margin-left: auto;";
                 messageElement.textContent = message;
-
                 const mainContent = document.querySelector('.app-content');
                 mainContent.appendChild(messageElement);
-
                 mainContent.scrollTop = mainContent.scrollHeight;
-
                 chatInput.value = '';
                 chatInput.focus();
             }
