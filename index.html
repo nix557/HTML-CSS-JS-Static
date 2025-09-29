@@ -3,13 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#007bff"/>
-    <title>Aplikasi PWA Fullscreen</title>
-    <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
-
+    <title>Aplikasi PWA Fullscreen Final</title>
     <style>
-        /* Kunci utama: Mengunci body agar tidak bergerak */
+        /* Mengunci body agar tidak bergerak atau memiliki celah sama sekali */
         html, body {
             width: 100%;
             height: 100%;
@@ -17,19 +13,22 @@
             overflow: hidden; 
             overscroll-behavior: none; 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f0f2f5;
         }
 
-        /* ====================================================== */
-        /* === PERBAIKAN UTAMA ADA DI SINI === */
-        /* ====================================================== */
+        /*
+        ==================================================================
+        === INI BAGIAN TERPENTING UNTUK MEMPERBAIKI MASALAH DI GAMBAR ANDA ===
+        ==================================================================
+        Container aplikasi ini sekarang TIDAK MEMILIKI `max-width` atau `margin`.
+        Ini akan memaksanya untuk selalu mengisi 100% lebar layar,
+        baik di ponsel, tablet, maupun desktop.
+        */
         .app-container {
             display: flex;
             flex-direction: column;
-            width: 100%;  /* Mengisi 100% lebar body */
-            height: 100%; /* Mengisi 100% tinggi body */
+            width: 100%;
+            height: 100%;
             background-color: #fff;
-            /* max-width dan margin telah DIHAPUS untuk menutup semua celah */
         }
 
         /* Header Aplikasi */
@@ -65,13 +64,13 @@
             gap: 10px;
         }
 
-        /* Styling lain tidak berubah */
+        /* Styling lain */
         .app-content h2 { margin-bottom: 15px; color: #333; }
         .app-content p { line-height: 1.6; margin-bottom: 20px; color: #555; }
         #chat-form { display: contents; }
         #chat-input { flex-grow: 1; border: 1px solid #ccc; border-radius: 20px; padding: 10px 15px; font-size: 16px; }
         #chat-input:focus { outline: none; border-color: #007bff; }
-        #send-button { flex-shrink: 0; border: none; background-color: #007bff; color: white; border-radius: 50%; width: 40px; height: 40px; font-size: 20px; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: background-color 0.2s; }
+        #send-button { flex-shrink: 0; border: none; background-color: #007bff; color: white; border-radius: 50%; width: 40px; height: 40px; font-size: 20px; cursor: pointer; display: flex; justify-content: center; align-items: center; }
     </style>
 </head>
 <body>
@@ -84,7 +83,7 @@
 
         <main class="app-content">
             <h2>Konten Bisa Digulir</h2>
-            <p>Layout ini sekarang akan selalu memenuhi seluruh layar, menghilangkan celah di sisi kanan dan kiri pada layar lebar.</p>
+            <p>Ini adalah area konten utama. Header dan Footer akan tetap diam di posisinya sementara Anda menggulir konten di area ini. Ini memberikan pengalaman seperti menggunakan aplikasi native.</p>
             <p><strong>Paragraf 1:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi.</p>
             <p><strong>Paragraf 2:</strong> Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor.</p>
             <p><strong>Paragraf 3:</strong> Cras vestibulum bibendum augue. Praesent egestas leo in pede. Praesent blandit odio eu enim. Pellentesque sed dui ut augue blandit sodales. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam nibh.</p>
@@ -101,10 +100,6 @@
         </footer>
 
     </div>
-
-    <script>
-        if ('serviceWorker' in navigator) { window.addEventListener('load', function() { navigator.serviceWorker.register('/sw.js'); }); }
-    </script>
 
 </body>
 </html>
